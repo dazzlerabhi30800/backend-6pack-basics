@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>my File</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #121212;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+        gap: 1.5rem;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>HTML File</h1>
+    <p> <%=45+50 %></p>
+    <!-- just use local for safe usage -->
+    <p>Hello <%=locals.name %></p>
+  </body>
+</html>
