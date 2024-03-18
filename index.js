@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
 
 app.get("/send", (req, res) => {
   res.render("index", { name: "Abhishek" });
+  // res.send("index");
 });
 
 app.listen(5000, () => {
