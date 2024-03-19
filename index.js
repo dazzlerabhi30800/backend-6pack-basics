@@ -3,6 +3,7 @@ import path from "path";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const app = express();
 const users = [];
@@ -69,10 +70,16 @@ app.post("/contact", (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { name, email } = req.body;
+  const { password, email } = req.body;
   let user = await User.findOne({ email });
   if (!user) {
     return res.redirect("/register");
+  }
+  // const isMatch = user.password === password;
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    return res.render("login", { email, message: "Incorrect Password" });
   }
   // const user = await User.create({ name, email });
   const token = jwt.sign({ _id: user._id }, "afjljflsjfljs");
@@ -90,7 +97,8 @@ app.post("/register", async (req, res) => {
   if (user) {
     return res.redirect("/login");
   }
-  user = await User.create({ name, email, password });
+  const hashedPass = await bcrypt.hash(password, 10);
+  user = await User.create({ name, email, password: hashedPass });
   const token = jwt.sign({ _id: user._id }, "afjljflsjfljs");
   res.cookie("token", token, {
     httpOnly: true,
