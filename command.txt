@@ -1,0 +1,34 @@
+// Command to show dbs & collections
+
+-> show collections;
+-> show dbs;
+
+// Command to insert ojbect into database
+-> db.students.insertOne({
+  name: "Abhishek", age: 22
+})
+db.student.insertMany([{ name: "Abhishek", age: 22 }])
+// above command will print object ID & acknowledged true
+
+// to find documents in collections
+-> db.students.find()
+-> db.students.find({name: "Michael"})
+
+// we can also place limit on the search results
+-> db.students.find({name: "Michael"}).limit(1)
+
+// always show the first match
+db.students.findOne({name: "Michael"})
+
+
+
+// update documents
+db.personal.updateOne({name: "Abhishek"}, {$set: {name: "Abhishek singh"}}) // $set is operator we always prepend $ while using operators in mongoDB
+db.personal.updateMany({name: "Abhishek"}, {$set: {name: "Abhishek singh"}})
+
+
+// Delete Documents
+
+db.personal.deleteOne({name: "Abhishek"}, {$set: {name: "Abhishek singh"}}) // $set is operator we always prepend $ while using operators in mongoDB
+db.personal.deleteMany({name: "Abhishek"}, {$set: {name: "Abhishek singh"}})
+db.personal.deleteMany({}) // it will delete all the documents in collections, hence the database will be empty
