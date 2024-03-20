@@ -28,3 +28,18 @@ export const getUserById = async (req, res) => {
 export const specialFunc = (req, res) => {
   res.json({ success: true, message: "Just Checking" });
 };
+
+
+
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  res.json({ success: true, message: "User Updated"});
+};
+
+
+export const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  res.json({ success: true, message: "User Deleted"});
+};
