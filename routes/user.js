@@ -3,6 +3,7 @@ import {
   deleteUser,
   getAllUsers,
   getUserById,
+  loginUser,
   newUser,
   specialFunc,
   updateUser,
@@ -15,6 +16,8 @@ router.get("/all", getAllUsers);
 router.post("/new", newUser);
 
 router.get("/special", specialFunc);
+
+router.post("/login", loginUser);
 
 router.route("/userid/:id").get(getUserById).put(updateUser).delete(deleteUser);
 

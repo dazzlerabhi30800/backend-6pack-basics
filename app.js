@@ -11,7 +11,7 @@ export const app = express();
 
 // middleware to access form data
 app.use(express.json());
-app.use("/users", userRouter);
+app.use("/api/v1/users", userRouter);
 
 app.get("/", (req, res) => {
   // res.send("Abhishek");
