@@ -2,7 +2,8 @@ import express from "express";
 import userRouter from "./routes/user.js";
 import { config } from "dotenv";
 import cookieParser from "cookie-parser";
-import taskRouter from './routes/task.js';
+import taskRouter from "./routes/task.js";
+import { errorMiddleware } from "./middlewares/error.js";
 
 // to access env variables
 config({
@@ -23,3 +24,5 @@ app.get("/", (req, res) => {
   // res.send("Abhishek");
   res.json({ name: "Abhishek", status: 200 });
 });
+
+app.use(errorMiddleware);

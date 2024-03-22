@@ -1,7 +1,6 @@
 import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
 import { setCookie } from "../utils/features.js";
-// import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req, res) => {
   const user = await User.find({});
@@ -10,34 +9,37 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const newUser = async (req, res) => {
-  const { name, email, password } = req.body;
-  let user = await User.findOne({ email });
-  if (user)
-    return res
-      .status(404)
-      .json({ success: false, message: "User Already Exist" });
-  const hashedPassword = await bcrypt.hash(password, 10);
-  user = await User.create({
-    name,
-    email,
-    password: hashedPassword,
-  });
-  setCookie(user, res, "User Created", 201);
+  try {
+    const { name, email, password } = req.body;
+    let user = await User.findOne({ email });
+    if (!user) return next(new ErrorHandler("User not found", 404));
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+    setCookie(user, res, "User Created", 201);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-  let user = await User.findOne({ email }).select("+password");
-  if (!user) {
-    return res.status(404).json({ success: false, message: "User not found" });
+  try {
+    const { email, password } = req.body;
+    let user = await User.findOne({ email }).select("+password");
+    if (!user) return next(new ErrorHandler("User not found", 404));
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch)
+      return next(new ErrorHandler("invalid email or password", 404));
+
+    setCookie(user, res, `Welcome Back ${user.name}`, 200);
+  } catch (err) {
+    next(err);
   }
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    return res
-      .status(404)
-      .json({ success: false, message: "Password didn't match!" });
-  }
-  setCookie(user, res, `Welcome Back ${user.name}`, 200);
 };
 
 export const getProfile = (req, res) => {
@@ -52,4 +54,3 @@ export const logoutUser = (req, res) => {
     })
     .json({ success: true, message: "User Logged Out" });
 };
-
