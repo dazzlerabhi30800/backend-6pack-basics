@@ -4,7 +4,7 @@ import {
   getProfile,
   loginUser,
   newUser,
-  specialFunc,
+  logoutUser,
 } from "../controllers/user.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
@@ -14,10 +14,9 @@ router.get("/all", getAllUsers);
 
 router.post("/new", newUser);
 
-router.get("/special", specialFunc);
-
 router.post("/login", loginUser);
+router.get("/logout", logoutUser);
 
-router.get("/me", getProfile);
+router.get("/me", isAuthenticated, getProfile);
 
 export default router;
