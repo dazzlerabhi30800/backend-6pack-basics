@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import cookieParser from "cookie-parser";
 import taskRouter from "./routes/task.js";
 import { errorMiddleware } from "./middlewares/error.js";
+import cors from "cors";
 
 // to access env variables
 config({
@@ -15,6 +16,13 @@ export const app = express();
 // middleware to access form data
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 // Routes
 app.use("/api/v1/users", userRouter);
