@@ -1,13 +1,12 @@
 import express from "express";
 import {
-  deleteUser,
   getAllUsers,
-  getUserById,
+  getProfile,
   loginUser,
   newUser,
   specialFunc,
-  updateUser,
 } from "../controllers/user.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -19,12 +18,6 @@ router.get("/special", specialFunc);
 
 router.post("/login", loginUser);
 
-router.route("/userid/:id").get(getUserById).put(updateUser).delete(deleteUser);
-
-// router.get("/userid/:id", getUserById);
-
-// router.put("/userid/:id", updateUser);
-
-// router.delete("/userid/:id", deleteUser);
+router.get("/me", getProfile);
 
 export default router;
