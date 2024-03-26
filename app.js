@@ -21,6 +21,7 @@ app.use(
     origin: [process.env.FRONTEND_URL?.toString()],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+    exposedHeaders: ["Set-Cookie"]
   }),
 );
 
