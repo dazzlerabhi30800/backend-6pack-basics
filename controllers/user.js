@@ -4,7 +4,6 @@ import { setCookie } from "../utils/features.js";
 
 export const getAllUsers = async (req, res) => {
   const user = await User.find({});
-  console.log(req.query.keyword);
   res.json({ success: true, user, message: "Users Fetched" });
 };
 
@@ -12,7 +11,7 @@ export const newUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     let user = await User.findOne({ email });
-    if (!user) return next(new ErrorHandler("User not found", 404));
+    if (user) return next(new ErrorHandler("User Already Exist", 404));
 
     const hashedPassword = await bcrypt.hash(password, 10);
     user = await User.create({
