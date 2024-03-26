@@ -5,7 +5,7 @@ import { setCookie } from "../utils/features.js";
 export const getAllUsers = async (req, res) => {
   const user = await User.find({});
   console.log(req.query.keyword);
-  res.json({ success: true, user });
+  res.json({ success: true, user, message: "Users Fetched" });
 };
 
 export const newUser = async (req, res) => {
