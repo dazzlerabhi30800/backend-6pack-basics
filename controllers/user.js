@@ -8,7 +8,7 @@ export const getAllUsers = async (req, res) => {
   res.json({ success: true, user, message: "Users Fetched" });
 };
 
-export const newUser = async (req, res) => {
+export const newUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     let user = await User.findOne({ email });
@@ -26,7 +26,7 @@ export const newUser = async (req, res) => {
   }
 };
 
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     let user = await User.findOne({ email }).select("+password");
