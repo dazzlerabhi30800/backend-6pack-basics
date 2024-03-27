@@ -21,6 +21,35 @@ export const getMyTask = async (req, res, next) => {
   }
 };
 
+export const startUpdateTask = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const task = await Task.findById(id);
+    if (!task) return next(new ErrorHandler("Task not found", 404));
+    task.isEdit = !task.isEdit;
+    await task.save();
+    res.status(200).json({ success: true, task });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const completeUpdate = async (req, res, next) => {
+  try {
+    const { title, description } = req.body;
+    const { id } = req.params;
+    const task = await Task.findById(id);
+    if (!task) return next(new ErrorHandler("Task not found", 404));
+    task.title = title;
+    task.description = description;
+    task.isEdit = false;
+    await task.save();
+    res.status(200).json({ success: true, task });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updateTask = async (req, res, next) => {
   try {
     const { id } = req.params;

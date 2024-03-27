@@ -4,6 +4,8 @@ import {
   getMyTask,
   updateTask,
   deleteTask,
+  startUpdateTask,
+  completeUpdate,
 } from "../controllers/task.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
@@ -15,5 +17,8 @@ router
   .route("/:id")
   .put(isAuthenticated, updateTask)
   .delete(isAuthenticated, deleteTask);
+
+router.put("/edit/:id", startUpdateTask);
+router.put("/complete/:id", completeUpdate);
 
 export default router;

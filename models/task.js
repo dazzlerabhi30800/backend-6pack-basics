@@ -9,6 +9,10 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isEdit: {
+    type: Boolean,
+    default: false,
+  },
   isCompleted: {
     type: Boolean,
     default: false,
