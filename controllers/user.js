@@ -1,6 +1,7 @@
 import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
 import { setCookie } from "../utils/features.js";
+import ErrorHandler from "../middlewares/error.js";
 
 export const getAllUsers = async (req, res) => {
   const user = await User.find({});
@@ -29,6 +30,7 @@ export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     let user = await User.findOne({ email }).select("+password");
+    console.log(user);
     if (!user) return next(new ErrorHandler("User not found", 404));
 
     const isMatch = await bcrypt.compare(password, user.password);
